@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:simhadri_referral/routes.dart';
+import 'package:http/http.dart';
+import 'package:simhadri_referral/resources/base_api.dart';
 
-void main() => runApp(TokenGeneratorMain());
+import 'routes.dart';
+
+void main() async {
+  runApp(TokenGeneratorMain());
+}
 
 class TokenGeneratorMain extends StatelessWidget {
   // This widget is the root of your application.
@@ -10,16 +15,17 @@ class TokenGeneratorMain extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.indigo,
+        // Define the default brightness and colors.
+        brightness: Brightness.light,
+        primaryColor: Colors.blue,
+        accentColor: Colors.yellow,
+
+        // Define the default font family.
+        fontFamily: 'Montserrat',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(),
       ),
       routes: routes,
     );

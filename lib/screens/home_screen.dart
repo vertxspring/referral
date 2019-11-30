@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:simhadri_referral/model/api_response.dart';
+import 'package:simhadri_referral/resources/base_api.dart';
+import 'package:simhadri_referral/services/referral_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,10 +14,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String customerMobile = "";
   String generatedCode = "";
+  final key = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+        key: key,
         resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
@@ -32,17 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'Generate',
                   style: TextStyle(
-                    color: Colors.indigo,
+                    color: Theme.of(context).primaryColor,
                     fontSize: 15,
                     fontFamily: "BebasNeue",
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
                 ),
-                onPressed: () => setState(() {
-                  generatedCode = generateRandomString(10);
-                }),
-                color: Colors.amber,
+                onPressed: () async {
+                  generatedCode = await generateRandomString(10);
+                  setState(() => {});
+                },
+                color: Theme.of(context).accentColor,
               ),
             ),
             SizedBox(
@@ -58,14 +64,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black87),
                     ),
-                    child: Center(
-                      child: Text(
-                        generatedCode,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 30,
+                    child: GestureDetector(
+                      child: Center(
+                        child: Text(
+                          generatedCode,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 30,
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: generatedCode));
+                        key.currentState.showSnackBar(SnackBar(
+                          content: Text(
+                            "Copied to clipboard!",
+                            textAlign: TextAlign.center,
+                          ),
+                        ));
+                      },
                     ),
                   ),
                   SizedBox(
@@ -82,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Text(
       "Referral Code Generator",
       style: TextStyle(
-        color: Colors.indigo,
+        color: Theme.of(context).accentColor,
         fontSize: 30,
         fontFamily: "BebasNeue",
         fontWeight: FontWeight.w900,
@@ -91,14 +108,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  String generateRandomString(int strlen) {
-    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  Future<String> generateRandomString(int strlen) async {
+    /*const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
     String result = "";
     for (var i = 0; i < strlen; i++) {
       result += chars[rnd.nextInt(chars.length)];
     }
-    return result;
+    return result;*/
+    ApiResponse<String> res = await ReferralService().generateReferralCode();
+    return res.body;
   }
 }

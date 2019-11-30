@@ -1,7 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:simhadri_referral/screens/login_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -13,13 +11,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 5000), onDoneLoading);
+    Future.delayed(Duration(milliseconds: 1500), onDoneLoading);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).primaryColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,16 +26,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
               child: Text(
                 "Simhadri Steels",
                 style: TextStyle(
-                    fontSize: 45,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.amber),
+                  fontSize: 45,
+                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).accentColor,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Divider(
                 height: 60,
-                color: Colors.amber,
+                color: Theme.of(context).accentColor,
                 thickness: 1,
               ),
             ),
@@ -45,9 +44,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
               child: Text(
                 "Refer & Earn",
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.amber),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).accentColor,
+                ),
               ),
             ),
           ],
